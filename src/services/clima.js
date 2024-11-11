@@ -1,6 +1,5 @@
-
 export async function fetchWeather(lat, lon, city = null) {
-  const apiKey = '362a4aa0ea2bf9177008822283e9828b'; 
+  const apiKey = '362a4aa0ea2bf9177008822283e9828b';
   let url;
 
   if (city) {

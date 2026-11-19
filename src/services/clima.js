@@ -1,17 +1,22 @@
-export async function fetchWeather(lat, lon, city = null) {
-  const apiKey = '362a4aa0ea2bf9177008822283e9828b';
-  let url;
+const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 
-  if (city) {
-    url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=pt`;
-  } else {
-    url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=pt`;
+export async function fetchWeather(lat, lon, city = null) {
+  const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
+  if (!apiKey) {
+    throw new Error('Chave da API não configurada. Defina REACT_APP_OPENWEATHER_API_KEY no arquivo .env.');
   }
+
+  const location = city
+    ? `q=${encodeURIComponent(city)}`
+    : `lat=${lat}&lon=${lon}`;
+  const url = `${API_URL}?${location}&appid=${apiKey}&units=metric&lang=pt`;
 
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Erro ao buscar dados do clima');
+  if (response.status === 404) {
+    throw new Error('Cidade não encontrada. Confira o nome e tente novamente.');
   }
-  const data = await response.json();
-  return data;
+  if (!response.ok) {
+    throw new Error('Não foi possível buscar os dados do clima. Tente novamente em instantes.');
+  }
+  return response.json();
 }

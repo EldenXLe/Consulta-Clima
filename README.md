@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# Consulta Clima
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação React que mostra o clima da sua localização atual assim que a página abre e permite pesquisar a temperatura e as condições de qualquer cidade.
 
-## Available Scripts
+![React](https://img.shields.io/badge/React_18-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=flat-square&logo=tailwindcss&logoColor=38BDF8)
+![OpenWeather](https://img.shields.io/badge/API-OpenWeather-EB6E4B?style=flat-square)
 
-In the project directory, you can run:
+**Demo:** [consulta-clima-ten.vercel.app](https://consulta-clima-ten.vercel.app)
 
-### `npm start`
+![Clima da localização atual e busca por cidade](docs/busca.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Funcionalidades
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Clima da localização atual:** usa a Geolocation API do navegador (com permissão do usuário) para buscar cidade, temperatura e descrição do tempo.
+- **Busca por cidade:** pelo botão ou pela tecla Enter.
+- **Tratamento de erros:** avisa quando a cidade não existe, quando a geolocalização é negada ou quando a API está indisponível.
+- **Respostas em português**, com temperatura em °C.
 
-### `npm test`
+## Tecnologias
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React 18 (Create React App), com hooks (`useState`, `useEffect`) e um hook customizado `useGeolocation`
+- Tailwind CSS 3
+- Fetch API para a [OpenWeather Current Weather API](https://openweathermap.org/current)
 
-### `npm run build`
+## Estrutura
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+src/
+├── App.js                 # Tela principal: localização atual e busca
+├── hooks/useGeolocation.js
+├── services/clima.js      # Chamada à API e tratamento das respostas de erro
+└── components/icones.js   # Ícones (react-icons)
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Como executar
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Pré-requisitos: Node.js 18+ e uma chave gratuita da OpenWeather ([criar aqui](https://home.openweathermap.org/api_keys)).
 
-### `npm run eject`
+```bash
+git clone https://github.com/EldenXLe/Consulta-Clima.git
+cd Consulta-Clima
+npm install
+cp .env.example .env      # e coloque sua chave em REACT_APP_OPENWEATHER_API_KEY
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Acesse `http://localhost:3000`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Variáveis de ambiente
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Variável | Descrição |
+|---|---|
+| `REACT_APP_OPENWEATHER_API_KEY` | Chave da OpenWeather. No deploy, configure em *Settings → Environment Variables* da Vercel |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> Em uma aplicação 100% front-end, a chave fica visível no navegador. Por isso ela não fica no repositório: é lida do ambiente.
